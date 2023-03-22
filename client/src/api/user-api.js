@@ -56,15 +56,15 @@ const read = async (params, credentials, signal) => {
 backend. This is also a protected route that will require a valid JWT as the credential.
     mern-skeleton/client/user/api-user.js:*/
 const update = async (params, credentials, user) => {
+    console.log("start update user in front end",user);
     try {
         let response = await fetch('http://localhost:3100/api/users/' + params.userId, {
             method: 'PUT',
             headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
+ //               'Accept': 'application/json',
                 'Authorization': 'Bearer ' + credentials.t
             },
-            body: JSON.stringify(user)
+            body: user
         })
         return await response.json()
     } catch(err) {

@@ -21,7 +21,8 @@ import DeleteUser from "../user-delete/user-delete.component";
 const defaultUser = {
     email: '',
     name: '',
-    password: ''
+    about:'',
+    password: '',
 }
 
 const useStyles = makeStyles(theme => ({
@@ -45,7 +46,9 @@ const UserProfileComponent = ({match}) => {
     const { userId } = useParams();
     const [user, setUser] = useState(defaultUser);
     const [redirectToSignin, setRedirectToSignin] = useState(false);
-
+    const photoUrl = user._id
+        ? `http://localhost:3100/api/users/photo/${user._id}?${new Date().getTime()}`
+        : 'http://localhost:3100/api/users/defaultphoto'
     //alert(userId);
     useEffect(() => {
         const abortController = new AbortController()
@@ -78,12 +81,12 @@ const UserProfileComponent = ({match}) => {
             <List dense>
                 <ListItem>
                     <ListItemAvatar>
-                        <Avatar>
+                        <Avatar crossOrigin="anonymous" src={photoUrl}>
                             <Person/>
                         </Avatar>
                     </ListItemAvatar>
                     <ListItemText primary={user.name} secondary={user.email}/> {
-                    isAuthenticated().user && isAuthenticated().user._id == user._id &&
+                    isAuthenticated().user && isAuthenticated().user._id === user._id &&
                     (<ListItemSecondaryAction>
                         <Link to={"/user/edit/" + user._id}>
                             <IconButton aria-label="Edit" color="primary">
@@ -94,6 +97,7 @@ const UserProfileComponent = ({match}) => {
                     </ListItemSecondaryAction>)
                 }
                 </ListItem>
+                <ListItem> <ListItemText primary={user.about}/> </ListItem>
                 <Divider/>
                 <ListItem>
                     <ListItemText primary={"Joined: " + (

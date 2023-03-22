@@ -18,6 +18,10 @@ router.route('/users')
     .get(userCtrl.list)
     .post(userCtrl.create);
 
+router.route('/users/photo/:userId')
+    .get(userCtrl.photo)
+router.route('/users/defaultphoto')
+    .get(userCtrl.defaultPhoto)
 // The route to read a user's information only needs authentication verification, whereas
 // the update and delete routes should check for both authentication and authorization
 // before these CRUD operations are executed.
@@ -30,6 +34,8 @@ router.route('/users/:userId')
     .delete(authCtrl.requireSignin,
         authCtrl.hasAuthorization,
         userCtrl.remove);
+
+
 
 /**
  * Besides declaring API endpoints that correspond to user CRUD operations, we'll also
